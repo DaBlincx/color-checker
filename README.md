@@ -1,2 +1,3 @@
 # color-checker
- check color paletts
+
+you can check different colors next to each other for generating a color palette
