@@ -2,6 +2,7 @@ const button = document.getElementById('add-button');
 const parent = document.querySelector('.parent');
 const colorPicker = document.getElementById("color-picker");
 const errorDisplay = document.getElementById("error-display");
+const saveButton = document.getElementById("save-button");
 
 button.addEventListener('click', () => {
 
@@ -16,7 +17,7 @@ function checkKey(e) {
     }
 }
 
-function showErrorMSG(message) {
+function showMSG(message) {
     errorDisplay.innerHTML = message;
     errorDisplay.style.display = "block";
     setTimeout(function () {
@@ -46,7 +47,7 @@ function createChild() {
         colorPicker.value = "";
         errorDisplay.style.display = "none";
     } else {
-        showErrorMSG("Invalid hex code.");
+        showMSG("Invalid hex code.");
     }
 }
 
@@ -68,4 +69,36 @@ function toHex(color) {
 
     // If the input value is not a valid hex string, return an empty string
     return null;
+}
+
+function saveScheme() {
+    // shoud save the color values of the .child elements to a json file and download it
+    var children = document.querySelectorAll('.child');
+    var colors = [];
+    for (var i = 0; i < children.length; i++) {
+        colors.push(rgbToHex(children[i].style.backgroundColor));
+    }
+    var json = JSON.stringify(colors);
+    download("scheme.json", json);
+}
+
+function download(filename, content) {
+    const file = new Blob([content], {
+        type: 'text/plain'
+    });
+    saveAs(file, filename);
+}
+
+function rgbToHex(rgb) {
+    // Extract the RGB values from the string
+    var values = rgb.match(/\d+/g);
+
+    // Convert the RGB values to hexadecimal format
+    var hex = "#";
+    for (var i = 0; i < 3; i++) {
+        var value = values[i];
+        hex += ("0" + parseInt(value).toString(16)).slice(-2);
+    }
+
+    return hex;
 }
