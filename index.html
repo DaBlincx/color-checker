@@ -14,7 +14,8 @@
     </div>
 
     <div id="add-section">
-        <input type="text" id="color-picker"><button id="add-button">Add</button>
+        <input placeholder="#ffffff" type="text" id="color-picker" onkeydown="checkKey(event)"><button id="add-button">Add</button>
+        <div id="error-display">text</div>
     </div>
 
     <script src="script.js"></script>

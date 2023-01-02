@@ -1,16 +1,33 @@
 const button = document.getElementById('add-button');
 const parent = document.querySelector('.parent');
 const colorPicker = document.getElementById("color-picker");
+const errorDisplay = document.getElementById("error-display");
 
 button.addEventListener('click', () => {
 
     createChild();
 });
 
+function checkKey(e) {
+    // Check if the Enter key was pressed
+    if (e.key === "Enter") {
+        // Do something here
+        createChild();
+    }
+}
+
+function showErrorMSG(message) {
+    errorDisplay.innerHTML = message;
+    errorDisplay.style.display = "block";
+    setTimeout(function () {
+        errorDisplay.style.display = "none";
+    }, 5000);
+}
+
 function createChild() {
     const useColor = getColor();
     if (useColor != null) {
-        const html = `<div class="child" style="background-color: ${useColor};"><p class="child-text">${useColor}</p></div>`;
+        const html = `<div class="child" style="background-color: ${useColor};"><div class="child-text">${useColor}</div></div>`;
 
         parent.insertAdjacentHTML('beforeend', html);
 
@@ -26,8 +43,10 @@ function createChild() {
             parent.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
             parent.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
         }
+        colorPicker.value = "";
+        errorDisplay.style.display = "none";
     } else {
-        colorPicker.value = "Invalid hex code."
+        showErrorMSG("Invalid hex code.");
     }
 }
 
